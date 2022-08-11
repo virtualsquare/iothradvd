@@ -334,7 +334,10 @@ struct iothradvd *iothradvd_vdestart(
 		char *vnl, void *macaddr, int period,
 		struct iothradata *data,
 		struct iothraprefix *pdata, int npdata) {
-	return _iothradvd_start(NULL, 0, vnl, macaddr, period, data, pdata, npdata);
+	if (vnl == NULL)
+		return errno = EINVAL, NULL;
+	else
+		return _iothradvd_start(NULL, 0, vnl, macaddr, period, data, pdata, npdata);
 }
 
 void iothradvd_stop(struct iothradvd *radvd) {

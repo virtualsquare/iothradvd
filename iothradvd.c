@@ -72,7 +72,7 @@ void usage(char *progname)
 {
 	fprintf(stderr,"Usage: %s OPTIONS prefix <prefix> ....\n"
 			"\tprefix : addr/len/flags/valid/preferred\n"
-			"\tes:  fc01::/64/LA/86400/14400\n"
+			"\tex:  fc01::/64/LA/86400/14400\n"
 			"\t  addr : IPv6 addr\n"
 			"\t  len : prefix length\n"
 			"\t  flags <flag codes> : L=on link, A=autoconf, R=addr is router\n"
@@ -93,7 +93,7 @@ void usage(char *progname)
 			"\t--flags|-F <flag codes>     (M=managed, O=other H=home h=hiprio l=loprio P=proxy)\n"
 			"\t--lifetime|-L <router lifetime (secs)\n"
 			"\t--reachable|-r <reachable time (msecs)\n"
-			"\t--retransmit|-R <retransmit time (msec)\n"
+			"\t--retransmit|-R <retransmit time (msecs)\n"
 			"\t--mtu|-M <mtu>\n"
 			"\t--help|-h\n",
 		progname);
@@ -346,13 +346,18 @@ int main(int argc, char *argv[])
 	int period = 0;
 	if (args.period) period = strtol(args.period, NULL, 10);
 
-	if (strstr(args.stack, "://")) { //
+	if (args.stack != NULL && strstr(args.stack, "://")) { //
 		radvd = iothradvd_vdestart(args.stack, (args.macaddr == NULL) ? NULL : macaddr,  
 				period, &radata, rapdata, rapdatalen);
 	} else {
-		struct ioth *stack = ioth_newstackc(args.stack);
+		struct ioth *stack = args.stack == NULL ? NULL : ioth_newstackc(args.stack);
 		int ifindex = ioth_if_nametoindex(stack, args.iface);
 		radvd = iothradvd_start(stack, ifindex, period, &radata, rapdata, rapdatalen);
+	}
+
+	if (radvd == NULL) {
+		printlog(LOG_ERR, "starting error %s", strerror(errno));
+		return 1;
 	}
 
 	for (;;)
