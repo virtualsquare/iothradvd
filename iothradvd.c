@@ -86,14 +86,14 @@ void usage(char *progname)
 			"\t--daemon|-d\n"
 			"\t--pidfile|-p <pidfile>\n"
 			"\t--verbose|-v\n"
-			"\t--period|-P\n"
+			"\t--period|-P <period in seconds>\n"
 			"\t--iface|-i <interface>      (only for ioth stack,  default value vde0)\n"
 			"\t--macaddr|-m <mac_address>  (only for vde emulation set the radvd MAC addr)\n"
 			"\t--hoplimit|-H <current hop limit>\n"
 			"\t--flags|-F <flag codes>     (M=managed, O=other H=home h=hiprio l=loprio P=proxy)\n"
-			"\t--lifetime|-L <router lifetime (secs)\n"
-			"\t--reachable|-r <reachable time (msecs)\n"
-			"\t--retransmit|-R <retransmit time (msecs)\n"
+			"\t--lifetime|-L <router lifetime> (secs)\n"
+			"\t--reachable|-r <reachable time> (msecs)\n"
+			"\t--retransmit|-R <retransmit time> (msecs)\n"
 			"\t--mtu|-M <mtu>\n"
 			"\t--help|-h\n",
 		progname);
