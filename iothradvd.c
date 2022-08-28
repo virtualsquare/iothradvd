@@ -19,6 +19,8 @@
  *
  */
 
+#define SPDX_LICENSE "SPDX-License-Identifier: GPL-2.0-or-later"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -350,6 +352,7 @@ int main(int argc, char *argv[])
 		radvd = iothradvd_vdestart(args.stack, (args.macaddr == NULL) ? NULL : macaddr,  
 				period, &radata, rapdata, rapdatalen);
 	} else {
+		ioth_set_license(SPDX_LICENSE);
 		struct ioth *stack = args.stack == NULL ? NULL : ioth_newstackc(args.stack);
 		int ifindex = ioth_if_nametoindex(stack, args.iface);
 		radvd = iothradvd_start(stack, ifindex, period, &radata, rapdata, rapdatalen);
